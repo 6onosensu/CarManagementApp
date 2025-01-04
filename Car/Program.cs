@@ -1,3 +1,6 @@
+using Car.ApplicationServices.Services;
+using Car.Core.ServiceInterface;
+
 namespace Car
 {
     public class Program
@@ -8,6 +11,8 @@ namespace Car
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<ICarServices, CarServices>();
 
             var app = builder.Build();
 
