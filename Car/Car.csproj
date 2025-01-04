@@ -20,4 +20,9 @@
     <ProjectReference Include="..\Car.Data\Car.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Car\" />
+    <Folder Include="Models\ServiceRecord\" />
+  </ItemGroup>
+
 </Project>
