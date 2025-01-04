@@ -3,8 +3,7 @@
     public class ServiceRecord
     {
         public Guid Id { get; set; }
-        public DateTime LastService {  get; set; }
-        public DateTime NextService { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
         public bool IsPass { get; set; }
 

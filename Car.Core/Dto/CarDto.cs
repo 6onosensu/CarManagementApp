@@ -1,4 +1,6 @@
-﻿namespace Car.Core.Dto
+﻿using Car.Core.Domain;
+
+namespace Car.Core.Dto
 {
     public class CarDto
     {
@@ -9,9 +11,12 @@
         public int Year { get; set; }
         public string Color { get; set; }
 
+        public DateTime LastService { get; set; }
+        public DateTime NextService { get; set; }
+
+        public List<ServiceRecord> ServiceRecords { get; set; }
+
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
-
-        public List<ServiceRecordDto> ServiceRecords { get; set; }
     }
 }
