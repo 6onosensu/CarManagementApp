@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Car.Core.Dto;
+using Car.Core.Domain;
 
 namespace Car.Core.ServiceInterface
 {
     public interface ICarServices
     {
+        Task<CarEntity> Details(Guid id);
     }
 }

@@ -12,6 +12,6 @@
         public DateTime ModifiedAt { get; set; }
 
         public Guid CarId { get; set; }
-        public CarEntity Car { get; set; }
+        public CarEntity CarEntity { get; set; }
     }
 }
