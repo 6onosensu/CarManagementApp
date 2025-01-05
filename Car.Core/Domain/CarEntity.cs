@@ -9,9 +9,6 @@
         public int Year { get; set; }
         public string Color { get; set; }
 
-        public DateTime LastService { get; set; }
-        public DateTime NextService { get; set; }
-
         public List<ServiceRecord> ServiceRecords { get; set; }
 
         public DateTime CreatedAt { get; set; }

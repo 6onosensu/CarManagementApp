@@ -49,5 +49,40 @@ namespace Car.ApplicationServices.Services
         {
             await _records.AddRecord(recordDto, carId);
         }
+
+        public async Task<CarEntity> Delete(Guid id)
+        {
+            var result = await _context.Cars
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            var records = await _records.GetRecordsByCarId(id);
+            foreach (var record in records) 
+            { 
+                _context.ServiceRecords.Remove(record);
+            }
+            _context.Cars.Remove(result);
+            await _context.SaveChangesAsync();
+            return result;
+        }
+
+        public async Task<CarEntity> Update(CarDto dto)
+        {
+            var domain = new CarEntity()
+            {
+                Id = dto.Id,
+                NumberPlate = dto.NumberPlate,
+                Make = dto.Make,
+                Model = dto.Model,
+                Year = dto.Year,
+                Color = dto.Color,
+                CreatedAt = dto.CreatedAt,
+                ModifiedAt = DateTime.Now,
+            };
+
+            _context.Cars.Update(domain);
+            await _context.SaveChangesAsync();
+
+            return domain;
+        }
     }
 }
