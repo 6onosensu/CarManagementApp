@@ -80,14 +80,12 @@ namespace Car.Data.Migrations
                     b.Property<bool>("IsPass")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("LastService")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("ModifiedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("NextService")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

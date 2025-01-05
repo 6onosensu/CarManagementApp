@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Car.Data.Migrations
 {
     [DbContext(typeof(CarDbContext))]
-    [Migration("20250104155815_InitialMigration")]
+    [Migration("20250105191650_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -83,14 +83,12 @@ namespace Car.Data.Migrations
                     b.Property<bool>("IsPass")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("LastService")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("ModifiedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("NextService")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
