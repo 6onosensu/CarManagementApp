@@ -6,6 +6,8 @@ using Car.Data;
 using Microsoft.EntityFrameworkCore;
 using Car.Models.ServiceRecord;
 using Car.Core.ServiceInterface;
+using Car.ApplicationServices.Services;
+using Car.Core.Dto;
 
 namespace Car.Controllers
 {
@@ -55,7 +57,7 @@ namespace Car.Controllers
                 Color = car.Color,
                 CreatedAt = car.CreatedAt,
                 ModifiedAt = car.ModifiedAt,
-                ServiceRecords = car.ServiceRecords
+                ServiceRecords = (car.ServiceRecords ?? new List<ServiceRecord>())
                     .Select(record => new RecordsViewModel
                 {
                     Id = record.Id,
@@ -70,6 +72,29 @@ namespace Car.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Update(Guid id, UpdateCarViewModel model)
+        {
+            var car = await _services.Details(id);
+            if (car == null)
+            {
+                return NotFound("Car not found.");
+            }
 
+            var updatedCarDto = new CarDto
+            {
+                Id = car.Id,
+                NumberPlate = model.NumberPlate,
+                Model = model.Model,
+                Make = model.Make,
+                Year = model.Year,
+                Color = model.Color,
+                CreatedAt = car.CreatedAt,
+                ModifiedAt = DateTime.Now,
+            };
+
+            await _services.Update(updatedCarDto);
+            return RedirectToAction(nameof(Details), new { id = car.Id });
+        }
     }
 }

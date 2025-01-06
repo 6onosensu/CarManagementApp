@@ -16,13 +16,24 @@ namespace Car.ApplicationServices.Services
             _records = records;
         }
 
-        public async Task<CarEntity> Details(Guid id)
+        public async Task<CarDto> Details(Guid id)
         {
-            var result = await _context.Cars
-                .Include(x => x.ServiceRecords)
-                .FirstOrDefaultAsync(x => x.Id == id);
+            var car = await _context.Cars
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Id == id);
+            if (car == null) return null;
 
-            return result;
+            return new CarDto
+            {
+                Id = car.Id,
+                NumberPlate = car.NumberPlate,
+                Model = car.Model,
+                Make = car.Make,
+                Year = car.Year,
+                Color = car.Color,
+                CreatedAt = car.CreatedAt,
+                ModifiedAt = car.ModifiedAt
+            };
         }
 
         public async Task<CarEntity> Create(CarDto dto)

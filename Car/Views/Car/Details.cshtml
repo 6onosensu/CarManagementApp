@@ -23,29 +23,34 @@
         </div>
 
         <div id="updateCarForm" class="mt-3" style="display:none;">
-            <form method="post">
+            <form asp-action="Update" method="post">
                 <div>
+                    <input asp-for="Id" type="hidden" />
+                    <input asp-for="CreatedAt" type="hidden" />
+                    <input asp-for="ModifiedAt" type="hidden" />
+                    <div class="col-md-4"><strong>Id:</strong> @Model.Id" </div>
+                    <div class="col-md-4">
+                        <strong>Number Plate:</strong>
+                        <input type="text" name="NumberPlate" value="@Model.NumberPlate" />
+                    </div>
                     <div class="col-md-4">
                         <strong>Model:</strong> 
-                        <input type="text" value="@Model.Model"/>
+                        <input type="text" name="Model" value="@Model.Model" />
                     </div>
                     <div class="col-md-4">
                         <strong>Make:</strong> 
-                        <input type="text" value="@Model.Make" />
+                        <input type="text" name="Make" value="@Model.Make" />
                     </div>
                     <div class="col-md-4">
                         <strong>Year:</strong> 
-                        <input type="number" value="@Model.Year" />
+                        <input type="number" name="Year" value="@Model.Year" />
                     </div>
                     <div class="col-md-4">
                         <strong>Color:</strong> 
-                        <input type="text" value="@Model.Color" />
+                        <input type="text" name="Color" value="@Model.Color" />
                     </div>
                 </div>
-
-                <div class="col text-end">
-                    <a asp-action="Update" asp-controller="Car" asp-route-id="@Model.Id" class="btn btn-primary">Update</a>
-                </div>
+                <button type="submit">Update Car</button>
             </form>
         </div>
     </div>
