@@ -6,7 +6,6 @@ using Car.Data;
 using Microsoft.EntityFrameworkCore;
 using Car.Models.ServiceRecord;
 using Car.Core.ServiceInterface;
-using Car.ApplicationServices.Services;
 using Car.Core.Dto;
 
 namespace Car.Controllers
@@ -72,29 +71,53 @@ namespace Car.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Update(Guid id, UpdateCarViewModel model)
+        [HttpGet]
+        public async Task<IActionResult> Update(Guid id)
         {
             var car = await _services.Details(id);
             if (car == null)
             {
-                return NotFound("Car not found.");
+                return NotFound();
             }
 
-            var updatedCarDto = new CarDto
+            var vm = new UpdateCarViewModel()
             {
                 Id = car.Id,
-                NumberPlate = model.NumberPlate,
-                Model = model.Model,
-                Make = model.Make,
-                Year = model.Year,
-                Color = model.Color,
+                NumberPlate = car.NumberPlate,
+                Make = car.Make,
+                Model = car.Model,
+                Year = car.Year,
+                Color = car.Color,
                 CreatedAt = car.CreatedAt,
-                ModifiedAt = DateTime.Now,
+                ModifiedAt = car.ModifiedAt,
             };
 
-            await _services.Update(updatedCarDto);
-            return RedirectToAction(nameof(Details), new { id = car.Id });
+            return View("_UpdateCarForm", vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(UpdateCarViewModel vm)
+        {
+            var carDto = new CarDto()
+            {
+                Id = vm.Id,
+                NumberPlate = vm.NumberPlate,
+                Make = vm.Make,
+                Model = vm.Model,
+                Year = vm.Year,
+                Color = vm.Color,
+                CreatedAt = vm.CreatedAt,
+                ModifiedAt = DateTime.Now
+            };
+
+            var car = await _services.Update(carDto);
+
+            if (car == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@model Car.Models.CarWithRecordsViewModel
+@using Car.Models.Car
 
 <div class="container">
     <div class="row align-content-center">
@@ -6,7 +7,8 @@
             <h2>Car @Model.NumberPlate</h2>
         </div>
         <div class="col text-end">
-            <button class="btn btn-success" id="UpdateCarButton">Update</button>
+            <a asp-action="update" asp-controller="Car" asp-route-id="@Model.Id" id="UpdateCarButton">Update</a>
+
         </div>
     </div>
     <hr />
@@ -23,35 +25,18 @@
         </div>
 
         <div id="updateCarForm" class="mt-3" style="display:none;">
-            <form asp-action="Update" method="post">
-                <div>
-                    <input asp-for="Id" type="hidden" />
-                    <input asp-for="CreatedAt" type="hidden" />
-                    <input asp-for="ModifiedAt" type="hidden" />
-                    <div class="col-md-4"><strong>Id:</strong> @Model.Id" </div>
-                    <div class="col-md-4">
-                        <strong>Number Plate:</strong>
-                        <input type="text" name="NumberPlate" value="@Model.NumberPlate" />
-                    </div>
-                    <div class="col-md-4">
-                        <strong>Model:</strong> 
-                        <input type="text" name="Model" value="@Model.Model" />
-                    </div>
-                    <div class="col-md-4">
-                        <strong>Make:</strong> 
-                        <input type="text" name="Make" value="@Model.Make" />
-                    </div>
-                    <div class="col-md-4">
-                        <strong>Year:</strong> 
-                        <input type="number" name="Year" value="@Model.Year" />
-                    </div>
-                    <div class="col-md-4">
-                        <strong>Color:</strong> 
-                        <input type="text" name="Color" value="@Model.Color" />
-                    </div>
-                </div>
-                <button type="submit">Update Car</button>
-            </form>
+            <p>Id: @Model.Id</p>
+            @await Html.PartialAsync("_UpdateCarForm", new UpdateCarViewModel
+           {
+               Id = Model.Id,
+               NumberPlate = Model.NumberPlate,
+               Model = Model.Model,
+               Make = Model.Make,
+               Year = Model.Year,
+               Color = Model.Color,
+               CreatedAt = Model.CreatedAt,
+               ModifiedAt = Model.ModifiedAt
+           })
         </div>
     </div>
     <hr />
@@ -137,11 +122,6 @@
 </div>
 
 <script>
-    document.getElementById('UpdateCarButton').addEventListener('click', function () {
-        const form = document.getElementById('updateCarForm');
-        form.style.display = form.style.display === 'none' ? 'block' : 'none';
-    });
-
     document.getElementById('addRecordButton').addEventListener('click', function() {
         const form = document.getElementById('addRecordForm');
         form.style.display = form.style.display === 'none' ? 'block' : 'none';

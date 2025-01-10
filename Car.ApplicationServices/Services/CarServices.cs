@@ -78,7 +78,7 @@ namespace Car.ApplicationServices.Services
 
         public async Task<CarEntity> Update(CarDto dto)
         {
-            var domain = new CarEntity()
+            var car = new CarEntity()
             {
                 Id = dto.Id,
                 NumberPlate = dto.NumberPlate,
@@ -86,14 +86,13 @@ namespace Car.ApplicationServices.Services
                 Model = dto.Model,
                 Year = dto.Year,
                 Color = dto.Color,
-                CreatedAt = dto.CreatedAt,
                 ModifiedAt = DateTime.Now,
             };
 
-            _context.Cars.Update(domain);
+            _context.Cars.Update(car);
             await _context.SaveChangesAsync();
 
-            return domain;
+            return car;
         }
     }
 }
