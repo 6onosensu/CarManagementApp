@@ -17,12 +17,6 @@ namespace Car.Controllers
             _recordService = serviceRecords;
             _services = services;
         }
-        /*[HttpGet]
-        public IActionResult AddRecordForm(Guid carId)
-        {
-            var model = new RecordViewModel { CarId = carId };
-            return PartialView("~/Views/Record/_AddRecordForm", model);
-        }*/
 
         [HttpPost]
         public async Task<IActionResult> AddRecordToCar(RecordViewModel model)

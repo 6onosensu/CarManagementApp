@@ -11,7 +11,7 @@ namespace Car.Core.Dto
         public int Year { get; set; }
         public string Color { get; set; }
 
-        public List<ServiceRecord> ServiceRecords { get; set; }
+        public List<ServiceRecordDto> ServiceRecords { get; set; }
 
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }

@@ -84,15 +84,15 @@ namespace Car.Controllers
                 Color = car.Color,
                 CreatedAt = car.CreatedAt,
                 ModifiedAt = car.ModifiedAt,
-                ServiceRecords = (car.ServiceRecords ?? new List<ServiceRecord>())
-                    .Select(record => new RecordsViewModel
+                ServiceRecords = car.ServiceRecords.Select(record => new RecordsViewModel
                 {
                     Id = record.Id,
                     Title = record.Title,
                     Description = record.Description,
                     IsPass = record.IsPass,
                     CreatedAt = record.CreatedAt,
-                    ModifiedAt = record.ModifiedAt
+                    ModifiedAt = record.ModifiedAt,
+                    CarId = record.CarId
                 }).ToList()
             };
 

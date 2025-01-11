@@ -19,7 +19,7 @@ namespace Car.ApplicationServices.Services
         public async Task<CarDto> Details(Guid id)
         {
             var car = await _context.Cars
-                .AsNoTracking()
+                .Include(c => c.ServiceRecords)
                 .FirstOrDefaultAsync(c => c.Id == id);
             if (car == null) return null;
 
@@ -32,7 +32,17 @@ namespace Car.ApplicationServices.Services
                 Year = car.Year,
                 Color = car.Color,
                 CreatedAt = car.CreatedAt,
-                ModifiedAt = car.ModifiedAt
+                ModifiedAt = car.ModifiedAt,
+                ServiceRecords = car.ServiceRecords.Select(record => new ServiceRecordDto
+                {
+                    Id = record.Id,
+                    Title = record.Title,
+                    Description = record.Description,
+                    IsPass = record.IsPass,
+                    CreatedAt = record.CreatedAt,
+                    ModifiedAt = record.ModifiedAt,
+                    CarId = record.CarId
+                }).ToList()
             };
         }
 
