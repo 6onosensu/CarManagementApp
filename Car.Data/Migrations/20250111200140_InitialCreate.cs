@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Car.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -39,24 +39,23 @@ namespace Car.Data.Migrations
                     IsPass = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CarId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CarEntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    CarId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ServiceRecords", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ServiceRecords_Cars_CarEntityId",
-                        column: x => x.CarEntityId,
+                        name: "FK_ServiceRecords_Cars_CarId",
+                        column: x => x.CarId,
                         principalTable: "Cars",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ServiceRecords_CarEntityId",
+                name: "IX_ServiceRecords_CarId",
                 table: "ServiceRecords",
-                column: "CarEntityId");
+                column: "CarId");
         }
 
         /// <inheritdoc />

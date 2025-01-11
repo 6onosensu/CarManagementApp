@@ -7,7 +7,7 @@ namespace Car.Core.ServiceInterface
     {
         Task<CarDto> Details(Guid id);
         Task<CarEntity> Create(CarDto dto);
-        Task AddServiceRecordToCar(Guid carId, ServiceRecordDto recordDto);
+        //Task AddServiceRecordToCar(Guid carId, ServiceRecordDto recordDto);
         Task<bool> Delete(Guid id);
         Task<CarEntity> Update(CarDto dto);
     }

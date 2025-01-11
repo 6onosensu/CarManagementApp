@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Car.Data.Migrations
 {
     [DbContext(typeof(CarDbContext))]
-    [Migration("20250105191650_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20250111200140_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,9 +67,6 @@ namespace Car.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CarEntityId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("CarId")
                         .HasColumnType("uniqueidentifier");
 
@@ -92,7 +89,7 @@ namespace Car.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarEntityId");
+                    b.HasIndex("CarId");
 
                     b.ToTable("ServiceRecords");
                 });
@@ -101,7 +98,7 @@ namespace Car.Data.Migrations
                 {
                     b.HasOne("Car.Core.Domain.CarEntity", "CarEntity")
                         .WithMany("ServiceRecords")
-                        .HasForeignKey("CarEntityId")
+                        .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

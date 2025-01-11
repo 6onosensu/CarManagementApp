@@ -64,9 +64,6 @@ namespace Car.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CarEntityId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("CarId")
                         .HasColumnType("uniqueidentifier");
 
@@ -89,7 +86,7 @@ namespace Car.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarEntityId");
+                    b.HasIndex("CarId");
 
                     b.ToTable("ServiceRecords");
                 });
@@ -98,7 +95,7 @@ namespace Car.Data.Migrations
                 {
                     b.HasOne("Car.Core.Domain.CarEntity", "CarEntity")
                         .WithMany("ServiceRecords")
-                        .HasForeignKey("CarEntityId")
+                        .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
