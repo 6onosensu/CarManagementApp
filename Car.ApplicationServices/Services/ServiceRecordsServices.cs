@@ -14,8 +14,14 @@ namespace Car.ApplicationServices.Services
             _context = context;
         }
 
-        public async Task<ServiceRecord> AddRecord(ServiceRecordDto dto, Guid carId)
+        public async Task<ServiceRecord> AddRecord(ServiceRecordDto dto)
         {
+            var car = await _context.Cars.FirstOrDefaultAsync(c => c.Id == dto.CarId);
+            if (car == null)
+            {
+                throw new Exception("The car with the provided ID does not exist.");
+            }
+
             var serviceRecord = new ServiceRecord
             {
                 Id = Guid.NewGuid(),
@@ -24,7 +30,8 @@ namespace Car.ApplicationServices.Services
                 IsPass = dto.IsPass,
                 CreatedAt = DateTime.Now,
                 ModifiedAt = DateTime.Now,
-                CarId = carId
+                CarId = dto.CarId,
+                CarEntity = car
             };
 
             await _context.ServiceRecords.AddAsync(serviceRecord);
@@ -35,33 +42,40 @@ namespace Car.ApplicationServices.Services
 
         public async Task<List<ServiceRecord>> GetRecordsByCarId(Guid carId)
         {
-            var records = await _context.ServiceRecords
-                .Where(record => record.CarId == carId)
+            return await _context.ServiceRecords
+                .Where(r => r.CarId == carId)
                 .ToListAsync();
-            return records;
         }
 
         public async Task<ServiceRecord> GetRecordById(Guid id)
         {
-            var record = await _context.ServiceRecords
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            return record;
+            return await _context.ServiceRecords.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task DeleteRecord(Guid recordId)
+        public async Task<Guid> DeleteRecord(Guid id)
         {
-            var record = await _context.ServiceRecords.FindAsync(recordId);
+            var record = await _context.ServiceRecords.FindAsync(id);
             if (record != null)
             {
+                var carId = record.CarId;
+
                 _context.ServiceRecords.Remove(record);
                 await _context.SaveChangesAsync();
+
+                return carId;
             }
+            throw new KeyNotFoundException($"Record with ID {id} not found.");
         }
+
 
         public async Task<ServiceRecord> UpdateRecord(Guid recordId, ServiceRecordDto dto)
         {
             var record = await _context.ServiceRecords.FindAsync(recordId);
+
+            if (record == null)
+            {
+                throw new Exception("Record not found");
+            }
 
             record.Title = dto.Title;
             record.Description = dto.Description;

@@ -5,6 +5,7 @@ namespace Car.Models.Car
     public class CreateCarViewModel
     {
         [Required]
+        [StringLength(10, ErrorMessage = "Number plate length cannot exceed 10 characters.")]
         public string NumberPlate { get; set; }
 
         [Required]

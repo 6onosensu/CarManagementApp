@@ -1,5 +1,5 @@
 ﻿@model Car.Models.CarWithRecordsViewModel
-@using Car.Models.Car
+@using Car.Models.ServiceRecord
 
 <div class="container">
     <div class="row align-content-center">
@@ -31,98 +31,15 @@
             <h3>All Records</h3>
         </div>
         <div class="col text-end">
-            <button class="btn btn-success" id="addRecordButton">Add Record</button>
+            <button class="btn btn-success" id="addRecord">Add Record</button>
         </div>
     </div>
-    <div id="addRecordForm" class="mt-3" style="display:none;">
-        <form asp-action="AddRecordToCar" method="post">
-            <input type="hidden" name="CarId" value="@Model.Id" />
-            <div class="form-group">
-                <label for="Title">Title</label>
-                <input type="text" name="Title" class="form-control" required />
-            </div>
-            <div class="form-group">
-                <label for="Description">Description</label>
-                <textarea name="Description" class="form-control"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="IsPass">Pass</label>
-                <input type="checkbox" name="IsPass" />
-            </div>
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
-    </div>
+    <div id="addRecordContainer" class="mt-3" style="display:none;"> 
+        @Html.Partial("~/Views/Record/_AddRecordForm.cshtml", new RecordViewModel { CarId = Model.Id })
     <hr />
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Pass</th>
-                <th>Created</th>
-                <th>Modified</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var record in Model.ServiceRecords)
-            {
-                <tr>
-                    <td>@record.Title</td>
-                    <td>@record.Description</td>
-                    <td>@(record.IsPass ? "Yes" : "No")</td>
-                    <td>@record.CreatedAt</td>
-                    <td>@record.ModifiedAt</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm updateRecordButton" data-id="@record.Id">Update</button>
-                        <form asp-action="DeleteRecord" method="post" class="d-inline">
-                            <input type="hidden" name="Id" value="@record.Id" />
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    <div id="updateRecordForm" class="mt-3" style="display:none;">
-        <form asp-action="UpdateRecord" method="post">
-            <input type="hidden" id="updateRecordId" name="Id" />
-            <div class="form-group">
-                <label for="UpdateTitle">Title</label>
-                <input type="text" id="updateTitle" name="Title" class="form-control" required />
-            </div>
-            <div class="form-group">
-                <label for="UpdateDescription">Description</label>
-                <textarea id="updateDescription" name="Description" class="form-control" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="UpdateIsPass">Pass</label>
-                <input type="checkbox" id="updateIsPass" name="IsPass" />
-            </div>
-            <button type="submit" class="btn btn-primary">Update</button>
-        </form>
+    <div id="updateRecordContainer" class="mt-3" style="display:none;"></div>
+    <div id="recordsTable">
+            @Html.Partial("~/Views/Record/_RecordsTable.cshtml", Model.ServiceRecords)
     </div>
 </div>
-
-<script>
-    document.getElementById('addRecordButton').addEventListener('click', function() {
-        const form = document.getElementById('addRecordForm');
-        form.style.display = form.style.display === 'none' ? 'block' : 'none';
-    });
-
-    document.querySelectorAll('.updateRecordButton').forEach(button => {
-        button.addEventListener('click', function() {
-            const recordId = this.getAttribute('data-id');
-            const form = document.getElementById('updateRecordForm');
-            form.style.display = 'block';
-
-            const row = this.closest('tr');
-            document.getElementById('updateRecordId').value = recordId;
-            document.getElementById('updateTitle').value = row.cells[0].textContent.trim();
-            document.getElementById('updateDescription').value = row.cells[1].textContent.trim();
-            document.getElementById('updateIsPass').checked = row.cells[2].textContent.trim() === 'Yes';
-        });
-    });
-</script>

@@ -9,7 +9,7 @@ namespace Car.Models.Car
         public Guid Id { get; set; }
 
         [Required]
-        [StringLength(10)]
+        [StringLength(10, ErrorMessage = "Number plate length cannot exceed 10 characters.")]
         public string NumberPlate { get; set; }
 
         [Required]

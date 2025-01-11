@@ -57,11 +57,6 @@ namespace Car.ApplicationServices.Services
             return car;
         }
 
-        public async Task AddServiceRecordToCar(Guid carId, ServiceRecordDto recordDto)
-        {
-            await _records.AddRecord(recordDto, carId);
-        }
-
         public async Task<bool> Delete(Guid id)
         {
             var car = await _context.Cars

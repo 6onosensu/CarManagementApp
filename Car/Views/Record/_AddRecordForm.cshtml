@@ -1,0 +1,18 @@
+﻿@model Car.Models.ServiceRecord.RecordViewModel
+
+<form asp-action="AddRecordToCar" asp-controller="Records" method="post" id="addRecordForm">
+    <input type="hidden" name="CarId" value="@Model.CarId" />
+    <div class="form-group">
+        <label asp-for="Title">Title</label>
+        <input type="text" asp-for="Title" name="Title" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label asp-for="Description">Description</label>
+        <textarea name="Description" asp-for="Description" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="IsPass">Passed</label>
+        <input type="checkbox" asp-for="IsPass" name="IsPass" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

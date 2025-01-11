@@ -1,0 +1,33 @@
+﻿@model List<Car.Models.ServiceRecord.RecordsViewModel>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Pass</th>
+            <th>Created</th>
+            <th>Modified</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var record in Model)
+        {
+            <tr>
+                <td>@record.Title</td>
+                <td>@record.Description</td>
+                <td>@(record.IsPass ? "Yes" : "No")</td>
+                <td>@record.CreatedAt.ToString("g")</td>
+                <td>@record.ModifiedAt.ToString("g")</td>
+                <td>
+                    <button class="btn btn-warning btn-sm updateRecordButton" data-id="@record.Id">Update</button>
+                    <form asp-action="DeleteRecord" method="post" class="d-inline">
+                        <input type="hidden" name="Id" value="@record.Id" />
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
