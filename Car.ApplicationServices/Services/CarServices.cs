@@ -62,19 +62,22 @@ namespace Car.ApplicationServices.Services
             await _records.AddRecord(recordDto, carId);
         }
 
-        public async Task<CarEntity> Delete(Guid id)
+        public async Task<bool> Delete(Guid id)
         {
-            var result = await _context.Cars
-                .FirstOrDefaultAsync(x => x.Id == id);
+            var car = await _context.Cars
+                .Include(c => c.ServiceRecords)
+                .FirstOrDefaultAsync(c => c.Id == id);
 
-            var records = await _records.GetRecordsByCarId(id);
-            foreach (var record in records) 
-            { 
-                _context.ServiceRecords.Remove(record);
+            if (car == null)
+            {
+                return false;
             }
-            _context.Cars.Remove(result);
+
+            _context.ServiceRecords.RemoveRange(car.ServiceRecords);
+            _context.Cars.Remove(car);
             await _context.SaveChangesAsync();
-            return result;
+
+            return true;
         }
 
         public async Task<CarEntity> Update(CarDto dto)

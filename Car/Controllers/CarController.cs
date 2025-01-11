@@ -148,6 +148,54 @@ namespace Car.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var car = await _services.Details(id);
+            if (car == null)
+            {
+                return NotFound();
+            }
 
+            var records = await _context.ServiceRecords
+                .Where(r => r.CarId == id)
+                .Select(x => new DeleteRecordViewModel
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Description = x.Description,
+                    IsPass = x.IsPass,
+                    CreatedAt = x.CreatedAt,
+                    ModifiedAt = x.ModifiedAt,
+                    CarId = x.CarId,
+                }).ToArrayAsync();
+
+            var vm = new DeleteCarViewModel()
+            {
+                Id = car.Id,
+                Make = car.Make,
+                Model = car.Model,
+                NumberPlate = car.NumberPlate,
+                Year = car.Year,
+                Color = car.Color,
+                CreatedAt = car.CreatedAt,
+                ModifiedAt = car.ModifiedAt,
+                ServiceRecords = records.ToList(),
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmation(Guid id)
+        {
+            var isDeleted = await _services.Delete(id);
+
+            if (!isDeleted)
+            {
+                return RedirectToAction(nameof(Index), new { error = "Car deletion failed." });
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
