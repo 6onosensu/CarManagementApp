@@ -47,7 +47,8 @@ namespace Car.ApplicationServices.Services
                 Year = dto.Year,
                 Color = dto.Color,
                 CreatedAt = DateTime.Now,
-                ModifiedAt = DateTime.Now
+                ModifiedAt = DateTime.Now,
+                ServiceRecords = new List<ServiceRecord>(),
             };
 
             await _context.Cars.AddAsync(car);

@@ -1,12 +1,11 @@
-﻿using Car.Core.Domain;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Car.Models.Car
 {
     public class CreateCarViewModel
     {
         [Required]
-        public string NumperPlate { get; set; }
+        public string NumberPlate { get; set; }
 
         [Required]
         public string Make { get; set; }

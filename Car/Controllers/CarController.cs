@@ -37,6 +37,34 @@ namespace Car.Controllers
         }
 
         [HttpGet]
+        public IActionResult Create()
+        {
+            CreateCarViewModel car = new();
+            return View("Create", car);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateCarViewModel vm)
+        {
+            var dto = new CarDto()
+            {
+                Id = new Guid(),
+                NumberPlate = vm.NumberPlate,
+                Make = vm.Make,
+                Model = vm.Model,
+                Year = vm.Year,
+                Color = vm.Color,
+            };
+
+            var result = await _services.Create(dto);
+            if (result == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index), vm);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Details(Guid id)
         {
             var car = await _services.Details(id);
@@ -119,5 +147,7 @@ namespace Car.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+
     }
 }
