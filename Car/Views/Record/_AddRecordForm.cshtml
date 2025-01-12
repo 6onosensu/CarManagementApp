@@ -1,7 +1,7 @@
 ﻿@model Car.Models.ServiceRecord.RecordViewModel
 
 <form asp-action="AddRecordToCar" asp-controller="Records" method="post" id="addRecordForm">
-    <input type="hidden" name="CarId" value="@Model.CarId" />
+    <input type="hidden" name="CarId" asp-for="CarId" value="@Model.CarId" />
     <div class="form-group">
         <label asp-for="Title">Title</label>
         <input type="text" asp-for="Title" name="Title" class="form-control" required />

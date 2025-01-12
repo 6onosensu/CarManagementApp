@@ -1,16 +1,19 @@
-﻿<form asp-action="UpdateRecord" method="post" id="updateRecordForm">
-    <input type="hidden" id="updateRecordId" name="Id" />
+﻿@model Car.Models.ServiceRecord.RecordViewModel
+
+<form asp-action="UpdateRecord" asp-controller="Records" method="post" id="updateRecordForm">
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <input type="hidden" asp-for="CarId" value="@Model.CarId" />
     <div class="form-group">
-        <label for="UpdateTitle">Title</label>
-        <input type="text" id="updateTitle" name="Title" class="form-control" required />
+        <label asp-for="Title"></label>
+        <input type="text" asp-for="Title" class="form-control" required />
     </div>
     <div class="form-group">
-        <label for="UpdateDescription">Description</label>
-        <textarea id="updateDescription" name="Description" class="form-control" required></textarea>
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control" required></textarea>
     </div>
     <div class="form-group">
-        <label for="UpdateIsPass">Pass</label>
-        <input type="checkbox" id="updateIsPass" name="IsPass" />
+        <label asp-for="IsPass">Pass</label>
+        <input type="checkbox" asp-for="IsPass" />
     </div>
-    <button type="submit" class="btn btn-primary">Update</button>
+    <button type="submit" class="btn btn-primary">Save</button>
 </form>

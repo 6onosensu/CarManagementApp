@@ -80,6 +80,7 @@ namespace Car.ApplicationServices.Services
             record.Title = dto.Title;
             record.Description = dto.Description;
             record.IsPass = dto.IsPass;
+            record.CarId = dto.CarId;
             record.ModifiedAt = DateTime.Now;
 
             _context.ServiceRecords.Update(record);

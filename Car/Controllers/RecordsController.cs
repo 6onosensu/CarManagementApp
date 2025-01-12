@@ -47,23 +47,6 @@ namespace Car.Controllers
             return RedirectToAction("Details", "Car", new { id = car.Id });
         }
 
-        [HttpGet]
-        public async Task<IActionResult> UpdateRecordForm(Guid id)
-        {
-            var record = await _recordService.GetRecordById(id);
-            if (record == null) return NotFound();
-
-            var model = new RecordViewModel
-            {
-                Id = record.Id,
-                CarId = record.CarId,
-                Title = record.Title,
-                Description = record.Description,
-                IsPass = record.IsPass
-            };
-            return PartialView("~/Views/Record/_UpdateRecordForm", model);
-        }
-
         [HttpPost]
         public async Task<IActionResult> UpdateRecord(RecordViewModel model)
         {
@@ -71,21 +54,20 @@ namespace Car.Controllers
             {
                 Title = model.Title,
                 Description = model.Description,
-                IsPass = model.IsPass
+                IsPass = model.IsPass,
+                CarId = model.CarId,
             };
 
             await _recordService.UpdateRecord(model.Id, dto);
-            var records = _recordService.GetRecordsByCarId(model.CarId);
-            return PartialView("~/Views/Record/_RecordsTable", records);
+            return RedirectToAction("Details", "Car", new { id = model.CarId });
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteRecord(Guid id)
         {
             var carId = await _recordService.DeleteRecord(id);
-            var records = await _recordService.GetRecordsByCarId(carId);
 
-            return PartialView("~/Views/Record/_RecordsTable", records);
+            return RedirectToAction("Details", "Car", new { id = carId });
         }
     }
 

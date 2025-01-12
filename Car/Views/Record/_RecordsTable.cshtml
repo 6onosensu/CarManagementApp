@@ -21,8 +21,14 @@
                 <td>@record.CreatedAt.ToString("g")</td>
                 <td>@record.ModifiedAt.ToString("g")</td>
                 <td>
-                    <button class="btn btn-warning btn-sm updateRecordButton" data-id="@record.Id">Update</button>
-                    <form asp-action="DeleteRecord" method="post" class="d-inline">
+                    <button class="btn btn-warning btn-sm updateRecordButton"
+                            data-record-id="@record.Id" 
+                            data-title="@record.Title" 
+                            data-description="@record.Description"
+                            data-car-id="@record.CarId">
+                        Update
+                    </button>
+                    <form asp-action="DeleteRecord" asp-controller="Records" method="post" class="d-inline" onsubmit="return confirmDelete();">
                         <input type="hidden" name="Id" value="@record.Id" />
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
@@ -31,3 +37,9 @@
         }
     </tbody>
 </table>
+
+<script>
+    function confirmDelete() {
+        return confirm("Are you sure you want to delete this record? This action cannot be undone.");
+    }
+</script>
